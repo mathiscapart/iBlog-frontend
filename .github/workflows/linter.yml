@@ -1,0 +1,18 @@
+name: "Linter"
+
+on:
+  push:
+
+jobs:
+  installation:
+    uses: ./.github/workflows/installation.yml
+  linter:
+    runs-on: self-hosted
+    steps:
+      - run: yarn lint
+        working-directory: frontend
+      - run: npm run lint
+        working-directory: backend
+      - run: npm run lint:yaml
+        working-directory: backend
+

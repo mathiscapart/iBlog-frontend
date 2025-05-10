@@ -1,0 +1,12 @@
+name: "Test"
+
+on:
+  push:
+
+jobs:
+  installation:
+    uses: ./.github/workflows/installation.yml
+  test:
+    runs-on: self-hosted
+    steps:
+      - run:
