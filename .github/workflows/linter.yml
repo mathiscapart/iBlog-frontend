@@ -4,6 +4,8 @@ on:
   pull_request:
     branches-ignore:
       - 'temp/**'
+      - 'dependabot/**'
+
   push:
     branches-ignore:
       - 'temp/**'
