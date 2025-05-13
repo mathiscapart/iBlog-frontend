@@ -1,12 +1,22 @@
 name: "Test"
 
 on:
+  pull_request:
+    branches:
+      - "*"
+    branches-ignore:
+      - 'temp/**'
   push:
+    branches:
+      - "*"
+    branches-ignore:
+      - 'temp/**'
+
 
 jobs:
   installation:
-    uses: ./.github/workflows/installation.yml
+    uses: ./.github/workflows/init.yml
   test:
     runs-on: self-hosted
     steps:
-      - run:
+      - run: yarn test
