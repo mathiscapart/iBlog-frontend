@@ -15,5 +15,6 @@ jobs:
     uses: ./.github/workflows/init.yml
   test:
     runs-on: self-hosted
+    needs: installation
     steps:
       - run: yarn test

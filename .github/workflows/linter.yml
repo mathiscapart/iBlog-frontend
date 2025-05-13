@@ -15,6 +15,7 @@ jobs:
     uses: ./.github/workflows/init.yml
   linter:
     runs-on: self-hosted
+    needs: installation
     steps:
       - uses: super-linter/super-linter@v7.3.0
         env:
