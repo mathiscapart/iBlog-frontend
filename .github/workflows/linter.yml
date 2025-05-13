@@ -4,7 +4,6 @@ on:
   pull_request:
     branches-ignore:
       - 'temp/**'
-      - 'dependabot/**'
 
   push:
     branches-ignore:
@@ -14,6 +13,7 @@ jobs:
   installation:
     uses: ./.github/workflows/init.yml
   linter:
+    if: github.actor != 'dependabot[bot]'
     runs-on: self-hosted
     needs: installation
     steps:
