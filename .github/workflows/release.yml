@@ -1,0 +1,23 @@
+name: "Test"
+
+on:
+  pull_request:
+    branches-ignore:
+      - 'temp/**'
+      - 'dependabot/**'
+  push:
+    branches-ignore:
+      - 'temp/**'
+
+
+jobs:
+  installation:
+    uses: ./.github/workflows/init.yml
+  test:
+    if: github.actor != 'dependabot[bot]'
+    runs-on: self-hosted
+    needs: installation
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
