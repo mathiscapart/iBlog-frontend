@@ -16,6 +16,10 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     runs-on: self-hosted
     needs: installation
+    permissions:
+      contents: read
+      checks: write
+      statuses: write
     steps:
       - uses: super-linter/super-linter@v7.3.0
         env:
