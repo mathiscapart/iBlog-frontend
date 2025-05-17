@@ -6,7 +6,7 @@ on:
 jobs:
   init:
     if: github.actor != 'dependabot[bot]'
-    runs-on: self-hosted
+    runs-on: runner
     steps:
       - uses: actions/checkout@v4
 
