@@ -21,7 +21,7 @@ jobs:
       checks: write
       statuses: write
     steps:
-      - uses: super-linter/super-linter@v7.3.0
+      - uses: super-linter/super-linter@v7.4.0
         env:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JSON: true
