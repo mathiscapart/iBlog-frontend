@@ -2,11 +2,13 @@ name: "Release"
 
 on:
   pull_request:
-    branches-ignore:
-      - 'temp/**'
+    branches:
+      - main
+      - master
   push:
-    branches-ignore:
-      - 'temp/**'
+    branches:
+      - main
+      - master
 
 
 jobs:
