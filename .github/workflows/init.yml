@@ -3,11 +3,6 @@ name: "Installation"
 on:
   workflow_call:
 
-permissions:
-  contents: read
-  checks: write
-  statuses: write
-
 jobs:
   init:
     if: github.actor != 'dependabot[bot]'
@@ -19,5 +14,7 @@ jobs:
         with:
           node-version: 22
           cache: 'yarn'
+
+      - run: sudo chown -R $USER:$USER ${{ github.workspace }}
 
       - run: yarn install --frozen-lockfile
