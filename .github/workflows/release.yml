@@ -11,14 +11,15 @@ on:
       - master
 
 jobs:
-  installation:
-    uses: ./.github/workflows/init.yml
-
   release:
     if: github.actor != 'dependabot[bot]'
     runs-on: runner
-    needs: installation
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
