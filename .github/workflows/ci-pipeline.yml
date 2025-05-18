@@ -38,7 +38,7 @@ jobs:
       - run: yarn lint
   test:
     runs-on: self-hosted
-    needs: linter
+    needs: init
     steps:
       - uses: actions/checkout@v4
       - run: yarn test
