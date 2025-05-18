@@ -15,6 +15,7 @@ permissions:
 jobs:
   ci:
     uses: ./.github/workflows/ci-pipeline.yml
+    secrets: inherit
   deploy:
     runs-on: self-hosted
     if: github.actor != 'dependabot[bot]'
