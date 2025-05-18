@@ -23,7 +23,8 @@ jobs:
       - id: meta
         run: |
           git fetch --tags
-          TAG="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
+          LATEST_TAG=$(git rev-list --tags --max-count=1)
+          TAG=$(git describe --tags "$LATEST_TAG")
           echo "Found tag: $TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
       - run: |
