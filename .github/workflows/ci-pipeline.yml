@@ -1,0 +1,65 @@
+name: "Init Linter Test Build"
+
+on:
+  workflow_call:
+
+jobs:
+  init:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+  linter:
+    runs-on: self-hosted
+    needs: init
+    permissions:
+      contents: read
+      checks: write
+      statuses: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: super-linter/super-linter@v7.3.0
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_JSON: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_HTML: true
+          VALIDATE_YAML: true
+          VALIDATE_CSS: true
+          VALIDATE_DOCKERFILE_HADOLINT: true
+          VALIDATE_GITHUB_ACTIONS: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: yarn lint
+  test:
+    runs-on: self-hosted
+    needs: linter
+    steps:
+      - uses: actions/checkout@v4
+      - run: yarn test
+  build:
+    runs-on: self-hosted
+    needs: test
+    steps:
+      - id: meta
+        run: |
+          git fetch --tags
+          TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "Found tag: $TAG"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/iblog-frontend:${{ steps.meta.outputs.tag }}
