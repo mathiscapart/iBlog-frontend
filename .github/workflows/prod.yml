@@ -23,13 +23,15 @@ jobs:
       - id: meta
         run: |
           git fetch --tags
-          TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          TAG="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
           echo "Found tag: $TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
-      - run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << ENDSSH
-            docker stop iblog-frontend || true
-            docker rm iblog-frontend || true
-            docker pull ${{ vars.DOCKERHUB_USERNAME }}/iblog-frontend:${{ steps.meta.outputs.tag }}
-            docker run -d --rm --name iblog-frontend -p 4173:4173 ${{ vars.DOCKERHUB_USERNAME }}/iblog-frontend:${{ steps.meta.outputs.tag }}
-          ENDSSH
+      - run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'ENDSSH'
+          cd /iBlog/iBlog-frontend
+          docker stop iblog-frontend || true
+          docker rm iblog-frontend || true
+          docker pull "${{ vars.DOCKERHUB_USERNAME }}/iblog-frontend:${{ steps.meta.outputs.tag }}"
+          docker run -d --rm --name iblog-frontend -p 4173:4173 "${{ vars.DOCKERHUB_USERNAME }}/iblog-frontend:${{ steps.meta.outputs.tag }}"
+         ENDSSH
