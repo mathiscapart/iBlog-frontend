@@ -12,7 +12,11 @@ jobs:
       statuses: write
     steps:
       - uses: actions/checkout@v4
-
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
       - uses: super-linter/super-linter@v7.3.0
         env:
           VALIDATE_ALL_CODEBASE: false
