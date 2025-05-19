@@ -17,7 +17,7 @@ jobs:
           node-version: 22
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
-      - uses: super-linter/super-linter@v7.3.0
+      - uses: super-linter/super-linter@v7.4.0
         env:
           VALIDATE_ALL_CODEBASE: false
           #VALIDATE_JSON: true
